@@ -1,4 +1,4 @@
-#footer {
+/*#footer {
     background: rgba(255,255,255,.15);
     color: #000;
     border-top-right-radius: 20px;
@@ -16,4 +16,10 @@
 
 #footer #footer-wrap a {
     color: var(--font-color);
+}*/
+/* 鱼塘固定宽度 */
+canvas:not(#ribbon-canvas), #web_bg {
+    margin-bottom: -0.5rem;
+    display: block;
+    width: 100%;
 }
