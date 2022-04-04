@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Hexo-Butterfly页脚养鱼</title>
+      <link href="/2022/04/04/Hexo-Butterfly%E9%A1%B5%E8%84%9A%E5%85%BB%E9%B1%BC/"/>
+      <url>/2022/04/04/Hexo-Butterfly%E9%A1%B5%E8%84%9A%E5%85%BB%E9%B1%BC/</url>
+      
+        <content type="html"><![CDATA[<p>最终效果在本站页脚，向下滑动即可看到。</p><hr><h2 id="操作方法"><a href="#操作方法" class="headerlink" title="操作方法"></a>操作方法</h2><p>参考文章一共介绍了两种方法，第一种是有针对于Butterfly主题的修改。第二种方法是通用方法（其他也主题可参考）</p><h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>打开站点的主题配置文件_config.butterfly.yml，找到inject，在bottom处直接引入以下链接：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- &lt;script src=&quot;https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure><h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><ol><li>找到footer.pug文件：\themes\butterfly\layout\includes\footer.pug，写入以下内容：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#jsi-flying-fish-container.container</span><br><span class="line">   script(src=&#x27;js/fish.js&#x27;)</span><br><span class="line">style.</span><br><span class="line"></span><br><span class="line">       @media only screen and (max-width: 767px)&#123;</span><br><span class="line">       #sidebar_search_box input[type=text]&#123;width:calc(100% - 24px)&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><ol start="2"><li>点的主题配置文件_config.butterfly.yml，找到inject，在bottom处直接引入<a href="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fish.js">https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fish.js</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- &lt;script src=&quot;https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fish.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></li></ol><p>​        注意：引入的js文件需要依赖jquery，所以在之前如果没有引用过的就需要在bottom处的最开始引入：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure><ol start="3"><li><p>这样效果就出现了。但是引入之后页脚会过高，需要修改footer.styl文件：\themes\butterfly\source\css_layout\footer.styl:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#footer</span><br><span class="line">  position: relative</span><br><span class="line">  background: $light-blue</span><br><span class="line">  background-attachment: local</span><br><span class="line">  background-position: bottom</span><br><span class="line">  background-size: cover</span><br><span class="line"></span><br><span class="line">  if hexo-config(&#x27;footer_bg&#x27;) != false</span><br><span class="line">    &amp;:before</span><br><span class="line">      position: absolute</span><br><span class="line">      width: 100%</span><br><span class="line">      height: 100%</span><br><span class="line">      background-color: alpha($dark-black, .1) </span><br><span class="line">      content: &#x27;&#x27;</span><br><span class="line"></span><br><span class="line">#footer-wrap</span><br><span class="line">  position: absolute</span><br><span class="line">  padding: 1.2rem 1rem 1.4rem</span><br><span class="line">  color: var(--light-grey)</span><br><span class="line">  text-align: center</span><br><span class="line">  left: 0</span><br><span class="line">  right: 0</span><br><span class="line">  top: 0</span><br><span class="line">  bottom: 0</span><br><span class="line"></span><br><span class="line">  a</span><br><span class="line">    color: var(--light-grey)</span><br><span class="line"></span><br><span class="line">    &amp;:hover</span><br><span class="line">      text-decoration: underline</span><br><span class="line"></span><br><span class="line">  .footer-separator</span><br><span class="line">    margin: 0 .2rem</span><br><span class="line"></span><br><span class="line">  .icp-icon</span><br><span class="line">    padding: 0 4px</span><br><span class="line">    vertical-align: text-bottom</span><br><span class="line">    max-height: 1.4em</span><br><span class="line">    width auto</span><br></pre></td></tr></table></figure></li><li><p>参考文章的技术流程写到这里就结束了，如果还有页脚文字被遮挡的情况，可以修改页脚的透明度，在\themes\butterfly\source\css路径下创建一个xxx.css文件，在文件中添加如下代码：</p></li></ol><ul><li>页脚半透明</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/* 页脚半透明 */</span><br><span class="line">#footer &#123;</span><br><span class="line">    background: rgba(255, 255, 255, 0);</span><br><span class="line">    color: #000;</span><br><span class="line">    border-top-right-radius: 20px;</span><br><span class="line">    border-top-left-radius: 20px;</span><br><span class="line">    backdrop-filter: saturate(100%) blur(5px)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer::before &#123;</span><br><span class="line">    background: rgba(255,255,255,0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer #footer-wrap &#123;</span><br><span class="line">    color: var(--font-color);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer #footer-wrap a &#123;</span><br><span class="line">    color: var(--font-color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li>页脚全透明</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* 页脚透明 */</span><br><span class="line">#footer &#123;</span><br><span class="line">    background: transparent !important;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>​        然后将该文件引入到inject的head处：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/xxx.css&quot;&gt;</span><br></pre></td></tr></table></figure><ol start="5"><li>至此操作结束，去看看你的页脚有没有发生变化吧。</li></ol><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>还有一个更为简单的方法，引入带有颜色的页脚养鱼，效果如下：</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/fish.png" alt="img"></p><p>只需要在_config.butterfly.yml文件中，找到inject，在bottom处直接引入：<a href="https://uuuuu.cf/js/fishes.js">https://uuuuu.cf/js/fishes.js</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- &lt;script defer src=&quot;https://uuuuu.cf/js/fishes.js&quot;&gt;&lt;/script&gt; # 页脚养鱼(彩色)</span><br></pre></td></tr></table></figure><p>注意：该操作同样需要在之前引入jquery。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> hexo </category>
+          
+          <category> Butterfly魔改 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+            <tag> Butterfly魔改 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ARK方舟Windows ARK Server Manager开服教程</title>
+      <link href="/2022/04/04/ARK%E6%96%B9%E8%88%9FWindows-ARK-Server-Manager%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/"/>
+      <url>/2022/04/04/ARK%E6%96%B9%E8%88%9FWindows-ARK-Server-Manager%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h3 id="服务器要求"><a href="#服务器要求" class="headerlink" title="服务器要求"></a>服务器要求</h3><ul><li>内存：4G能满足游戏运行，不过容易卡顿，6G能稳定运行。推荐8G以上。</li><li>网络：2M~4M上行带宽，游戏服务器容易被ddos攻击，最好弄高防御的服务器或者配置网络防御能力，避免卡顿。</li><li>端口：默认UDP 777，UDP 27015</li></ul><h3 id="下载软件"><a href="#下载软件" class="headerlink" title="下载软件"></a>下载软件</h3><p>[官网下载](<a href="https://redirect.viglink.com/?format=go&amp;jsonp=vglnk_163763550743810&amp;key=71fe2139a887ad501313cd8cce3053c5&amp;libId=kwbhw0zk0102ylrr000DLkz08zkab&amp;loc=https://arkservermanager.freeforums.net/thread/5193/downloads?page=1&scrollTo=29985&amp;ccpaConsent=1---&amp;v=1&amp;out=https://raw.githubusercontent.com/Bletch1971/ServerManagers/master/ASM/latest.exe&amp;ref=https://arkservermanager.freeforums.net/&amp;title=Downloads">https://redirect.viglink.com/?format=go&amp;jsonp=vglnk_163763550743810&amp;key=71fe2139a887ad501313cd8cce3053c5&amp;libId=kwbhw0zk0102ylrr000DLkz08zkab&amp;loc=https%3A%2F%2Farkservermanager.freeforums.net%2Fthread%2F5193%2Fdownloads%3Fpage%3D1%26scrollTo%3D29985&amp;ccpaConsent=1---&amp;v=1&amp;out=https%3A%2F%2Fraw.githubusercontent.com%2FBletch1971%2FServerManagers%2Fmaster%2FASM%2Flatest.exe&amp;ref=https%3A%2F%2Farkservermanager.freeforums.net%2F&amp;title=Downloads</a> | ARK Server Manager&amp;txt&#x3D;Latest.exe)ARK Server Manager</p><p><a href="https://pan.wapriaily.com/index.php/s/L6W3QfDZL7oJH9b">国内下载</a>ARK Server Manager</p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul><li>新建一个ARK文件夹，把ARK Server Manager移动到文件夹内运行</li><li>安装完后启动ARK Server Manager，会提示缺少SteamCMD，一路确定就会自动安装SteamCMD</li><li>安装完SteamCMD后ARK Server Manager就打开了</li></ul><h3 id="安装服务器"><a href="#安装服务器" class="headerlink" title="安装服务器"></a>安装服务器</h3><ul><li>在右上角找到设置按钮，将语言设置为中文。</li><li>然后返回主界面新建配置文件</li><li>点击右边安装按钮等待安装</li></ul><h3 id="配置服务器"><a href="#配置服务器" class="headerlink" title="配置服务器"></a>配置服务器</h3><ul><li>首先需要在地图和MOD功能里选择地图</li><li>然后就可以更改服务器的名称</li><li>根据自己的服务器配置调整服务器端口以及最大玩家数量</li></ul><h3 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h3><ul><li>配置好服务器后点击右上角开始按钮启动服务器即可</li><li>启动时间根据服务器配置而定，时间可能较长</li><li>如长时间没有启动成功，重新启动即可</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> steam </category>
+          
+          <category> 开服 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> steam </tag>
+            
+            <tag> 开服 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>七日杀(7 Days to Die)Liunx开服教程</title>
+      <link href="/2022/04/04/%E4%B8%83%E6%97%A5%E6%9D%80-7-Days-to-Die-Liunx%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/"/>
+      <url>/2022/04/04/%E4%B8%83%E6%97%A5%E6%9D%80-7-Days-to-Die-Liunx%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="服务器要求"><a href="#服务器要求" class="headerlink" title="服务器要求"></a>服务器要求</h2><ul><li>内存：2G能满足正常进行游戏，内存越大，支持的人数越多。推荐8G以上。</li><li>网络：2M~4M上行带宽，游戏服务器容易被ddos攻击，最好弄高防御的服务器或者配置网络防御能力。</li><li>端口：默认TCP 27000，TCP 27021，TCP 27020</li></ul><h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu 或 Debian</span></span><br><span class="line">$ sudo apt-<span class="built_in">get</span> update</span><br><span class="line">$ sudo apt-<span class="built_in">get</span><span class="built_in"> upgrade</span></span><br><span class="line"><span class="built_in"></span><span class="comment"># CentOS</span></span><br><span class="line">$ yum update -y</span><br><span class="line">$ yum<span class="built_in"> upgrade </span>-y</span><br></pre></td></tr></table></figure><h2 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h2><h3 id="首先添加一个单独的用户"><a href="#首先添加一个单独的用户" class="headerlink" title="首先添加一个单独的用户"></a>首先添加一个单独的用户</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>adduser <span class="number">7</span>dtd</span><br></pre></td></tr></table></figure><h3 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">$ sudo apt-get <span class="keyword">install</span> glibc.i686 libstdc++i686 -y</span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">$ yum <span class="keyword">install</span> glibc.i686 libstdc++i686 -y</span><br></pre></td></tr></table></figure><h3 id="安装终端复用器"><a href="#安装终端复用器" class="headerlink" title="安装终端复用器"></a>安装终端复用器</h3><p>根据个人喜好安装其中一个</p><h4 id="Tmux"><a href="#Tmux" class="headerlink" title="Tmux"></a>Tmux</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">$ sudo apt-get <span class="keyword">install</span> tmux</span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">$ sudo yum <span class="keyword">install</span> tmux</span><br></pre></td></tr></table></figure><h4 id="Screen"><a href="#Screen" class="headerlink" title="Screen"></a>Screen</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">$ sudo apt <span class="keyword">install </span><span class="keyword">screen</span></span><br><span class="line"><span class="keyword"></span><span class="comment">#CentOS</span></span><br><span class="line">$ yum <span class="keyword">install </span><span class="keyword">screen</span></span><br></pre></td></tr></table></figure><h3 id="切换用户"><a href="#切换用户" class="headerlink" title="切换用户"></a>切换用户</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - <span class="number">7</span>dtd</span><br><span class="line">cd <span class="regexp">/home/</span>steam</span><br></pre></td></tr></table></figure><h3 id="创建窗口"><a href="#创建窗口" class="headerlink" title="创建窗口"></a>创建窗口</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Tmux</span></span><br><span class="line"><span class="attribute">tmux</span> new -s <span class="number">7</span>dtd</span><br><span class="line"><span class="comment">#Screen</span></span><br><span class="line"><span class="attribute">screen</span> -s <span class="number">7</span>dtd</span><br></pre></td></tr></table></figure><h3 id="下载SteamCMD"><a href="#下载SteamCMD" class="headerlink" title="下载SteamCMD"></a>下载SteamCMD</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>steamcdn-a.akamaihd.net<span class="regexp">/client/i</span>nstaller/steamcmd_linux.tar.gz</span><br><span class="line">tar -xvzf steamcmd_liunx.tar.gz</span><br></pre></td></tr></table></figure><h3 id="下载服务端"><a href="#下载服务端" class="headerlink" title="下载服务端"></a>下载服务端</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./steamcmd.sh</span><br><span class="line">login anonymous</span><br><span class="line">force_install_dir <span class="regexp">/home/</span>steam/<span class="number">7</span>DaysToDieServer</span><br><span class="line">app_update <span class="number">294420</span> validate</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure><h2 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/home/</span>steam/<span class="number">7</span>DaysToDieServer</span><br><span class="line">vi serverconfig.xml</span><br></pre></td></tr></table></figure><h2 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> ~<span class="string">/7DaysToDieServer</span></span><br><span class="line"><span class="string">./startserver.sh</span> -configfile=serverconfig.xml</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> steam </category>
+          
+          <category> 开服 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> steam </tag>
+            
+            <tag> 开服 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>饥荒Liunx SteamCMD开服教程</title>
+      <link href="/2022/04/04/%E9%A5%A5%E8%8D%92Liunx-SteamCMD%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/"/>
+      <url>/2022/04/04/%E9%A5%A5%E8%8D%92Liunx-SteamCMD%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="服务器要求"><a href="#服务器要求" class="headerlink" title="服务器要求"></a>服务器要求</h2><ul><li>内存：2G能满足5个人左右正常游玩，4G够10个人左右，根据人数选服务器即可，大量MOD需要高配置的服务器。</li><li>网络：4M以上的带宽，游戏服务器容易被ddos攻击，最好弄高防御的服务器或者配置网络防御能力。</li><li>端口：默认TCP 10998,TCP 10999</li></ul><h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#更新</span></span><br><span class="line">sudo yum update</span><br><span class="line"><span class="comment">#安装</span></span><br><span class="line">sudo yum-y <span class="keyword">install</span> glibc.i686 libstdc++i686</span><br></pre></td></tr></table></figure><h2 id="安装终端复用器"><a href="#安装终端复用器" class="headerlink" title="安装终端复用器"></a>安装终端复用器</h2><p>根据个人喜好安装其中一个</p><h4 id="Tmux"><a href="#Tmux" class="headerlink" title="Tmux"></a>Tmux</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">$ sudo apt-get <span class="keyword">install</span> tmux</span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">$ sudo yum <span class="keyword">install</span> tmux</span><br></pre></td></tr></table></figure><h4 id="Screen"><a href="#Screen" class="headerlink" title="Screen"></a>Screen</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">$ sudo apt <span class="keyword">install </span><span class="keyword">screen</span></span><br><span class="line"><span class="keyword"></span><span class="comment">#CentOS</span></span><br><span class="line">$ yum <span class="keyword">install </span><span class="keyword">screen</span></span><br></pre></td></tr></table></figure><h2 id="安装SteamCMD"><a href="#安装SteamCMD" class="headerlink" title="安装SteamCMD"></a>安装SteamCMD</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adduser dst</span><br><span class="line">su -dst</span><br><span class="line">cd /home/steam</span><br><span class="line">n-<span class="selector-tag">a</span><span class="selector-class">.akamaihd</span>.net/client/installer/steamcmd_linux<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">tar -xvzf steamcmd_liunx<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">./steamcmd.sh</span><br></pre></td></tr></table></figure><h2 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login anonymous</span><br><span class="line">force_install_dir <span class="regexp">/home/</span>steam/dstserver</span><br><span class="line">app_update <span class="number">343050</span> validate</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure><h2 id="启动服务端"><a href="#启动服务端" class="headerlink" title="启动服务端"></a>启动服务端</h2><p>Liunx服务端的组件有错误，需要更改一下后启动</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>lib<span class="regexp">/libcurl.so.4  /</span>home<span class="regexp">/steam/</span>dstserver<span class="regexp">/bin/</span>lib32/libcurl-gnutls.so.<span class="number">4</span></span><br><span class="line">cd <span class="regexp">/home/</span>steam<span class="regexp">/dstserver/</span>bin</span><br><span class="line">echo <span class="string">&quot;./dontstarve_dedicated_server_nullrenderer -console -persistent_storage_root /home/dstsave -conf_dir dst -cluster World1 -shard Master&quot;</span> &amp;gt; master_start.sh</span><br><span class="line">echo <span class="string">&quot;./dontstarve_dedicated_server_nullrenderer -console -persistent_storage_root /home/dstsave -conf_dir dst -cluster World1 -shard Caves&quot;</span> &amp;gt; cave_start.sh</span><br><span class="line">chmod +x master_start.sh cave_start.sh</span><br><span class="line">.master_start.sh</span><br></pre></td></tr></table></figure><h2 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h2><p>启动完后关闭进程</p><p>在&#x2F;home&#x2F;steam&#x2F;dstserver&#x2F;dst&#x2F;World1&#x2F;文件会生成默认的配置文件</p><p>接下来我们需要将电脑上的配置文件传到服务端上，有能力的可以直接在服务端更改配置即可</p><p>打开游戏，创建新的世界，配置好名词，描述，密码，地洞等</p><p>创建好世界后退出世界，返回主界面，点击左下角的游戏数据</p><p>找到Cluster_1文件夹（后面数字为创建的世界顺序）</p><p>打开文件夹后将所有文件上传到服务端的home&#x2F;steam&#x2F;dstserver&#x2F;dst&#x2F;World1&#x2F;目录</p><p>上传完后，在游戏主界面点击左下角的账号信息，点击查看我的游戏按钮</p><p>点击右上角Don’t Strave Together Servers</p><p>拉到最后输入Token名称，点击添加新的服务器，就会生成Token</p><p>复制Token，粘贴到服务端World1目录里的cluster_token.txt里，不会编辑的可以在本地电脑创建同名的txt文件上传替换即可</p><h2 id="启动世界"><a href="#启动世界" class="headerlink" title="启动世界"></a>启动世界</h2><p>依次启动主世界和洞穴，以下教程使用Tmux</p><h3 id="主世界"><a href="#主世界" class="headerlink" title="主世界"></a>主世界</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/steam/dstserver</span><br><span class="line">tmux new -s master</span><br><span class="line">./master_start.sh</span><br></pre></td></tr></table></figure><h3 id="洞穴"><a href="#洞穴" class="headerlink" title="洞穴"></a>洞穴</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmux -s cave</span><br><span class="line">./cave_start.sh</span><br></pre></td></tr></table></figure><p>启动完以上进程后就可以再游戏你们看到服务器了</p><h2 id="配置MOD"><a href="#配置MOD" class="headerlink" title="配置MOD"></a>配置MOD</h2><p>将World1文件夹里的modoverrides.lua文件打开</p><p>找到MOD们的workshop数字ID记录下来</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/home/</span>steam<span class="regexp">/dstserver/m</span>ods</span><br></pre></td></tr></table></figure><p>找到dedicated_server_mods_setup.lua文件并打开</p><p>在最后一栏注释上面将所有MOD以下面格式添加</p><p>ServerModSetup(“workshop数字ID”)</p><p>添加完后重启服务器MOD就配置完毕了</p><p>不会编辑的朋友可以将文件下载下来，编辑后上传即可</p><h2 id="配置服主管理员"><a href="#配置服主管理员" class="headerlink" title="配置服主管理员"></a>配置服主管理员</h2><p>点击主界面的账号信息</p><p>找到KLEI用户ID记录下来</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/home/</span>steam<span class="regexp">/dstsave/</span>dst<span class="regexp">/World1/</span></span><br><span class="line">vim adminlist.txt</span><br></pre></td></tr></table></figure><p>创建好txt文件后将KLEI用户ID输入后保存</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> steam </category>
+          
+          <category> 开服 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> steam </tag>
+            
+            <tag> 开服 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Unturned未转变者Windows SteamCMD开服教程</title>
+      <link href="/2022/04/04/Unturned%E6%9C%AA%E8%BD%AC%E5%8F%98%E8%80%85Windows-SteamCMD%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/"/>
+      <url>/2022/04/04/Unturned%E6%9C%AA%E8%BD%AC%E5%8F%98%E8%80%85Windows-SteamCMD%E5%BC%80%E6%9C%8D%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="服务器要求"><a href="#服务器要求" class="headerlink" title="服务器要求"></a>服务器要求</h2><ul><li>内存：2G以上即可，越高越好，根据期望用户量增加。</li><li>网络：2M以上的带宽，游戏服务器容易被ddos攻击，最好弄高防御的服务器或者配置网络防御能力。</li><li>端口：默认TCP 27015</li></ul><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p><a href="https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip">点击下载</a>SteamCMD</p><p><a href="https://gsf-fl.softonic.com/3a8/2ff/6c396563e808aef56baa9e1ac9b34960d3/npp.8.1.9.Installer.exe?Expires=1637759025&Signature=f8fb1aaa36e1203e3d7094c455eea099b751b5c2&url=https://notepad-plus.en.softonic.com&Filename=npp.8.1.9.Installer.exe">点击下载</a>Notepad++</p><h2 id="安装服务端"><a href="#安装服务端" class="headerlink" title="安装服务端"></a>安装服务端</h2><p>在桌面创建一个SteamCMD文件夹，将下载的SteamCMD压缩包解压进去</p><p>启动SteamCMD等待下载安装</p><p>显示Steam&gt;时代表已经安装完毕</p><p>输入以下代码登陆下载</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">login</span> anonymous</span><br><span class="line">app_update <span class="number">1110390</span> <span class="keyword">validate</span></span><br></pre></td></tr></table></figure><p>等待下载完成后exit</p><h2 id="启动服务端"><a href="#启动服务端" class="headerlink" title="启动服务端"></a>启动服务端</h2><p>在SteamCMD\steamapps\common\U3DS\找到服务端启动Unturned.exe</p><p>运行完成后输入shutdown关闭服务器</p><p>第一次启动服务端是为了生成世界</p><h2 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h2><p>在U3DS目录找到Servers文件夹，打开默认服务器文件夹Default</p><p>打开Server文件夹，会看到一个Commands.dat文件</p><p>使用Notepad++编辑该文件，按个人需求选填以下指令，当然不添加新的指令在原本的指令更改也可以。</p><table><thead><tr><th>配置代码</th><th>功能</th><th>备注</th></tr></thead><tbody><tr><td>Name</td><td>服务器名称</td><td></td></tr><tr><td>Map</td><td>地图类型</td><td>默认PEI</td></tr><tr><td>Password</td><td>服务器密码</td><td>公开不填</td></tr><tr><td>Welcome</td><td>服务器欢迎语</td><td></td></tr><tr><td>Maxplayer</td><td>服务器人数</td><td>根据服务器配置填</td></tr><tr><td>Mode</td><td>服务器难度</td><td>可填Eazy,Normal,Hard</td></tr><tr><td>Perspective</td><td>服务器视角限制</td><td>可填First,Third,Both,Vehicle</td></tr><tr><td>PVE</td><td>开启PVE模式</td><td>留空为PVP</td></tr><tr><td>Cheats</td><td>服务器作弊模式</td><td>开True关False</td></tr><tr><td>Port</td><td>服务器端口</td><td>默认27015,更改需要开放端口</td></tr></tbody></table><p>配置完后保存，启动Unturned.exe文件</p><p>加载完毕我们就可以看到服务器了</p><h2 id="创意工坊"><a href="#创意工坊" class="headerlink" title="创意工坊"></a>创意工坊</h2><p>在SteamCMD\steamapps\common\U3DS\Servers\Default</p><p>咱们能看到WorkshopDownloadConfig.json文件</p><p>使用Notepad++编辑该文件添加你想要添加的创意工坊文件ID即可</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> steam </category>
+          
+          <category> 开服 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> steam </tag>
+            
+            <tag> 开服 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在linux上搭建QQ搜图机器人——基于go-cqhttp和cq-picsearcher-bot</title>
+      <link href="/2022/03/22/%E5%9C%A8linux%E4%B8%8A%E6%90%AD%E5%BB%BAQQ%E6%90%9C%E5%9B%BE%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8Ego-cqhttp%E5%92%8Ccq-picsearcher-bot/"/>
+      <url>/2022/03/22/%E5%9C%A8linux%E4%B8%8A%E6%90%AD%E5%BB%BAQQ%E6%90%9C%E5%9B%BE%E6%9C%BA%E5%99%A8%E4%BA%BA%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8Ego-cqhttp%E5%92%8Ccq-picsearcher-bot/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>系统：CentOS</p><p>文中服务器已安装<a href="https://www.bt.cn/download/linux.html">宝塔Linux面板</a>，并以其演示</p><p>FinalShell  SHH终端</p><p>主要用到的程序 <a href="https://github.com/Mrs4s/go-cqhttp">go-cqhttp</a> 和 <a href="https://github.com/Tsuk1ko/cq-picsearcher-bot">cq-picsearcher-bot</a></p><p><a href="https://github.com/Mrs4s/go-cqhttp">https://github.com/Mrs4s/go-cqhttp</a></p><p><a href="https://github.com/Tsuk1ko/cq-picsearcher-bot">https://github.com/Tsuk1ko/cq-picsearcher-bot</a></p></blockquote><h2 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget git screen nodejs</span><br></pre></td></tr></table></figure><h2 id="创建目录，并到该目录下"><a href="#创建目录，并到该目录下" class="headerlink" title="创建目录，并到该目录下"></a>创建目录，并到该目录下</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir go-cqhttp &amp;&amp; cd go-cqhttp</span><br></pre></td></tr></table></figure><h2 id="下载-go-cqhttp"><a href="#下载-go-cqhttp" class="headerlink" title="下载 go-cqhttp"></a>下载 go-cqhttp</h2><p>先下载该项目程序：</p><p><a href="https://github.com/Mrs4s/go-cqhttp/releases">https://github.com/Mrs4s/go-cqhttp/releases</a></p><p>一般默认选 go-cqhttp_linux_amd64.tar.gz 作为我们 amd64 架构服务器用到的程序（arm 架构系统选用 arm64）</p><ul><li>Windows 下 32 位文件为 go-cqhttp-v*-windows-386.zip</li><li>Windows 下 64 位文件为 go-cqhttp-v*-windows-amd64.zip</li><li>Windows 下 arm 用 (如使用高通 CPU 的笔记本) 文件为 go-cqhttp-v*-windows-arm.zip</li><li>Linux 下 32 位文件为 go-cqhttp-v*-linux-386.tar.gz</li><li>Linux 下 64 位文件为 go-cqhttp-v*-linux-amd64.tar.gz</li><li>Linux 下 arm 用 (如树莓派) 文件为 go-cqhttp-v*-linux-arm.tar.gz</li><li>MD5 文件为 *.md5 , 用于校验文件完整性</li><li>如果没有你所使用的系统版本或者希望自己构建，请移步 进阶指南 - 如何自己构建</li></ul><p>然后在服务器上下载这个压缩包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta1/go-cqhttp_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure><p>解压该压缩包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf go-cqhttp_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/go-cqhttp.png"></p><p>解压完只有这三个文件。</p><p>然后输入以下命令，回车</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./go-cqhttp</span><br></pre></td></tr></table></figure><p>选择第二个 ws，输入数字 2 回车即可（你甚至可以全部选择，输入 1234 回车）然后生成 config.yml 以后可以 <code>ctrl+c</code> 终止进程</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220322140753738.png" alt="image-20220322140753738"></p><h2 id="配置-go-cqhttp"><a href="#配置-go-cqhttp" class="headerlink" title="配置 go-cqhttp"></a>配置 go-cqhttp</h2><p>宝塔中刷新目录，然后会发现多出了个 <code>config.yml</code> 文件，打开然后编辑</p><p>主要就是填入 QQ 账号和密码，别的都不用管</p><p>然后 Save 保存文件即可</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220322141236497.png" alt="image-20220322141236497"></p><h2 id="加载-go-cqhttp"><a href="#加载-go-cqhttp" class="headerlink" title="加载 go-cqhttp"></a>加载 go-cqhttp</h2><p>然后再次执行</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./go-cqhttp</span><br></pre></td></tr></table></figure><p>如图即正常加载了</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220322142536140.png" alt="image-20220322142536140"></p><p>当然，估计你因为异地登录会让你输入滑块验证码反馈</p><p>查看宝塔面板go-cqhttp目录，会生成一张二维码图片，打开手机QQ扫码登陆即可</p><p>或另一种解决方案：<a href="https://docs.go-cqhttp.org/faq/slider.html">https://docs.go-cqhttp.org/faq/slider.html</a></p><p>那么这时候按照他的指示，复制网址到浏览器打开，然后先不要拖动滑块，先按 F12 打开开发者工具</p><p>选择 network，抓取 <code>ticket</code> 字段，并黏贴到 ssh 里要求输入的地方，即可通过。</p><h2 id="安装部署-qc-picsearcher-bot"><a href="#安装部署-qc-picsearcher-bot" class="headerlink" title="安装部署 qc-picsearcher-bot"></a>安装部署 qc-picsearcher-bot</h2><p>然后ctrl c 退出登录。</p><p>回到上级目录</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br></pre></td></tr></table></figure><p>到cq-picsearcher-bot下载最新的版本。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/Tsuk1ko/cq-picsearcher-bot &amp;&amp; cd cq-picsearcher-bot &amp;&amp; cp config.default.jsonc config.jsonc</span><br></pre></td></tr></table></figure><p>下载完毕之后，再输入指令。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i </span><br></pre></td></tr></table></figure><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>config.jsonc 文件需要配置的地方太多了，而且根据每个人不同的习惯都各不相同，这个还请自行配置，参考官方配置文档：</p><p><a href="https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E</a></p><p>其中几个地方都需要配置 api 才能使用，如 saucenao 和 setu 功能 </p><p>因为要用到saucenao的搜图，要注册拿到api key</p><p>注册：<a href="https://saucenao.com/user.php">https://saucenao.com/user.php</a>?</p><p>api key: <a href="https://saucenao.com/user.php?page=search-api">https://saucenao.com/user.php?page=search-api</a></p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/20210330233614736.png" alt="img"></p><p>复制，粘贴到cq-picsearcher-bot目录中的config.jsonc文件中。（拉到最下面）</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/20210330233943367.png" alt="img"></p><h2 id="启动-qc-picsearcher-bot"><a href="#启动-qc-picsearcher-bot" class="headerlink" title="启动 qc-picsearcher-bot"></a>启动 qc-picsearcher-bot</h2><p>配置完成后先启动 go-cqhttp 再运行本程序 ！</p><p>回到go-cqhttp目录</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">cd go-cqhttp</span><br><span class="line"></span><br><span class="line">//启动后台登录</span><br><span class="line"></span><br><span class="line">nohup ./go-cqhttp &gt; /dev/null 2&gt; /dev/null &amp;</span><br></pre></td></tr></table></figure><p>回到cq-picsearcher-bot目录</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .. </span><br><span class="line">cd cq-picsearcher-bot</span><br></pre></td></tr></table></figure><p>然后输入：</p>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220322143158880.png" alt="image-20220322143158880"></p><h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure><h3 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm stop</span><br></pre></td></tr></table></figure><h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm restart</span><br></pre></td></tr></table></figure><h3 id="查看日志（平时日志也会保存在-logs-文件夹内）"><a href="#查看日志（平时日志也会保存在-logs-文件夹内）" class="headerlink" title="查看日志（平时日志也会保存在 logs 文件夹内）"></a>查看日志（平时日志也会保存在 logs 文件夹内）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run log</span><br></pre></td></tr></table></figure><h2 id="食用"><a href="#食用" class="headerlink" title="食用"></a>食用</h2><ul><li>私聊<ul><li>直接发送图片即可</li></ul></li><li>群组<ul><li>@ 机器人并发送图片</li><li>回复某人（也可以是自己）发送的图片，在消息中 @ 机器人</li></ul></li><li>可以在同一条消息中包含多张图片，会自动批量搜索</li><li>搜索图片时可以在消息内包含以下参数来指定搜索范围或者使用某项功能，参数之间除 –debug 外互斥，优先级从上到下<ul><li>–get-url：获取图片的在线链接（不会搜图）</li><li>–all：全库搜索（默认）</li><li>–pixiv：从 P 站中搜索</li><li>–danbooru：从 Danbooru 中搜索</li><li>–doujin：搜索本子</li><li>–anime：搜索番剧</li><li>–a2d：使用 ascii2d 进行搜索（优势搜索局部图能力较强）</li><li>–debug：调试，会在控制台中输出搜图时网络请求的内容</li></ul></li><li>对于 saucenao<ul><li>如果得到的结果相似度低于 60%（可配置），会自动使用 ascii2d 进行搜索（可配置）</li><li>如果额度耗尽，会自动使用 ascii2d 进行搜索（可配置）</li><li>如果搜索到本子，会自动在 nhentai 中搜索并返回链接（如果有汉化本会优先返回汉化本链接）</li><li>如果搜到番剧，会自动使用 WhatAnime 搜索番剧详细信息<ul><li>AnimeDB 与 WhatAnime 的结果可能会不一致，是正常现象，毕竟这是两个不同的搜索引擎</li><li>同时展示这两个搜索的目的是为了尽力得到你可能想要的识别结果</li></ul></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> bot </category>
+          
+          <category> qqx </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> bot </tag>
+            
+            <tag> qq </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PicGo + GitHub搭建个人图床</title>
+      <link href="/2022/03/12/PicGo%20+%20GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/"/>
+      <url>/2022/03/12/PicGo%20+%20GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/</url>
+      
+        <content type="html"><![CDATA[<h2 id="配置GtiHub"><a href="#配置GtiHub" class="headerlink" title="配置GtiHub"></a>配置GtiHub</h2><p>新建仓库</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220312230017936.png"></p><p>这里需要注意：仓库得设置为 Public 。因为后面通过客户端访问算是外部访问，因此无法访问 Private ，这样的话图片传上来之后只能存储不能显示。</p><p>仓库建好之后，点击页面右上角，进入 Settings：</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/O%40%7DH%5D%7D%7B%7EYV8D6%7E%24%7BLGAF96A.png"></p><p>然后进入 Developer settings：</p><p><img src="https://segmentfault.com/img/remote/1460000041076410"></p><p>点击 Personal access tokens，再点 Generate new token 新建 token</p><p><img src="https://segmentfault.com/img/remote/1460000041076411"></p><p>填写 Notes 信息，选择 token 过期时间，为了安全，GitHub 会强烈建议不要设置成永久。这个大家根据自己实际情况选择，到期之后重新生成即可。</p><p>复选框的话，repo 一定要全选，其他的无所谓，我是都勾选了。</p><p>确定之后，就生成我们需要的 token 了。</p><p><img src="https://segmentfault.com/img/remote/1460000041076412"></p><h2 id="配置PicGo"><a href="#配置PicGo" class="headerlink" title="配置PicGo"></a>配置PicGo</h2><p>下载 PicGo：点击<a href="https://link.segmentfault.com/?enc=Ptgik6w7iSuBHgEgu5ndyA==.OxB/dUe4VpLBJtUlwtNy8DWnb+AJo1LHGidh20qqXVQNEQbpfnvA7chetn/FaQuN">下载地址</a>，然后安装。</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220312230958908.png"></p><ul><li>设定仓库名：上文在 GitHub 创建的仓库。</li><li>设定分支名：main。</li><li>设定 Token：上文生成的 token。</li><li>指定存储路径：为空的话会上传到跟目录，也可以指定路径。</li></ul><p>配置完成后就可以使用了。</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220312231444544.png"></p><p>直接拖拽，或者点击上传都可以。</p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220312231619090.png"></p><p><img src="https://raw.githubusercontent.com/Unfalll/notepic/main/img/image-20220312231643155.png"></p><p>最后，在相册里复制外链，粘贴到我们的 markdown 文档中，就可以看到图片了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Github </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Github </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Joplin与坚果云搭建免费云盘</title>
+      <link href="/2022/03/12/Joplin%E4%B8%8E%E5%9D%9A%E6%9E%9C%E4%BA%91%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E4%BA%91%E7%9B%98/"/>
+      <url>/2022/03/12/Joplin%E4%B8%8E%E5%9D%9A%E6%9E%9C%E4%BA%91%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E4%BA%91%E7%9B%98/</url>
+      
+        <content type="html"><![CDATA[<h1 id="产品介绍"><a href="#产品介绍" class="headerlink" title="产品介绍"></a>产品介绍</h1><h2 id="Joplin"><a href="#Joplin" class="headerlink" title="Joplin"></a>Joplin</h2><p>一款开源的、支持自定义同步服务器、多平台支持的makedown笔记。<br>joplin官网<a href="https://joplinapp.org/">https://joplinapp.org/</a><br>第一眼看到joplin发现布局很像印象笔记，就决定用来代替印象笔记了。<br>功能上当然没有印象笔记多，但是基本的makedown、标签、全笔记搜索、目录结构、多平台、云同步还是有的。<br>编辑功能少了一点，但是开源可以进行二次开发，也不知道有没有朋友已经在开发了。</p><h2 id="坚果云"><a href="#坚果云" class="headerlink" title="坚果云"></a>坚果云</h2><p>一款国内的云存储服务，主要支持<a href="https://so.csdn.net/so/search?q=webdav&spm=1001.2101.3001.7020">webdav</a>可以供joplin实现云同步。<br>可以创建免费用户，每个月有1G上传和3G下载的流量，对于笔记来说应该是很够的了，速度对于笔记来讲也是足够的。</p><h2 id="搭建开始"><a href="#搭建开始" class="headerlink" title="搭建开始"></a>搭建开始</h2><h3 id="步骤1"><a href="#步骤1" class="headerlink" title="步骤1"></a>步骤1</h3><p>注册坚果云账户，在根目录创建一个joplin云储存的文件夹。</p><p><img src="https://img-blog.csdnimg.cn/20200624221255552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubV0L3FxXzMzOTA3MjE4,size_16,color_FFFFFF,t_70"></p><h3 id="步骤2-创建webdav应用"><a href="#步骤2-创建webdav应用" class="headerlink" title="步骤2     创建webdav应用"></a>步骤2     创建webdav应用</h3><p>点击右上角的用户头像进入账户信息页面</p><p><img src="https://img-blog.csdnimg.cn/20200624221430930.png"></p><p>选择安全选项，右下方添加应用（我的已经添加了）</p><p><img src="https://img-blog.csdnimg.cn/20200624221558205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzOTA3MjE4,size_16,color_FFFFFF,t_70"></p><p>现在我们有了webdav三个内容：服务器地址，账户，密码</p><h3 id="步骤3-下载安装joplin（想要哪个平台下哪个）"><a href="#步骤3-下载安装joplin（想要哪个平台下哪个）" class="headerlink" title="步骤3 下载安装joplin（想要哪个平台下哪个）"></a>步骤3 下载安装joplin（想要哪个平台下哪个）</h3><h3 id="步骤4-joplin接入云同步"><a href="#步骤4-joplin接入云同步" class="headerlink" title="步骤4 joplin接入云同步"></a>步骤4 joplin接入云同步</h3><p>点击 工具 -》 选项 -》 同步，按照如下填写webdav账户信息，这里需要注意网站后面要加上在坚果云创建的文件夹名字&#x2F;joplin</p><p><img src="https://img-blog.csdnimg.cn/20200624221944862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzOTA3MjE4,size_16,color_FFFFFF,t_70"></p><p>点击 检查同步配置，成功之后，就可以通过ctrl+s把文件同步上去了</p><p><img src="https://img-blog.csdnimg.cn/20200624222108517.png"></p><p>其他平台类似方法接入同一个webdav即可时间多设备云同步。<br>我们同步完成之后，坚果云joplin文件夹下便存放我们的笔记内容</p><p><img src="https://img-blog.csdnimg.cn/20200624222508898.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzOTA3MjE4,size_16,color_FFFFFF,t_70"></p><p>.md后缀是我们的文本笔记<br>笔记里面的图片、附件等内容则在resources</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>青龙面板批量部署依赖库</title>
+      <link href="/2022/03/11/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E4%BE%9D%E8%B5%96%E5%BA%93/"/>
+      <url>/2022/03/11/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E4%BE%9D%E8%B5%96%E5%BA%93/</url>
+      
+        <content type="html"><![CDATA[<p>把常见的依赖库都给它装上去，免得以后运行其他羊毛脚本的时候提示各种错误。</p><p>这里分享下<a href="https://unfall.top/tags/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF/">青龙面板</a>的部署教程《<a href="https://unfall.top/2022/03/11/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF%E8%87%AA%E5%8A%A8%E9%A2%86JD%E4%BA%AC%E8%B1%86/">青龙面板自动领JD京豆</a>》，再此基础上部署依赖库。再此基础上部署依赖库。</p><p>输入：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure><p>查看青龙面板 Docker 是否正常运行，记下青龙 Docker 的容器名字，如果是按照缙哥哥的部署教程操作，那么默认的名称就是<code>qinglong</code></p><p><img src="https://img.dujin.org/uploads/2021/12/20211219214338.png"></p><p>输入一键安装命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it qinglong bash</span><br></pre></td></tr></table></figure><p>如果你的青龙容器不叫<code>qinglong</code>，那自己替换为相应的容器名字。</p><p>安装依赖命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://ghproxy.com/https://raw.githubusercontent.com/shufflewzc/QLDependency/main/Shell/QLOneKeyDependency.sh | sh</span><br></pre></td></tr></table></figure><p>然后慢慢等就可以了</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 薅羊毛 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 薅羊毛 </tag>
+            
+            <tag> JD </tag>
+            
+            <tag> 青龙面板 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>青龙面板自动领JD京豆</title>
+      <link href="/2022/03/11/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF%E8%87%AA%E5%8A%A8%E9%A2%86JD%E4%BA%AC%E8%B1%86/"/>
+      <url>/2022/03/11/%E9%9D%92%E9%BE%99%E9%9D%A2%E6%9D%BF%E8%87%AA%E5%8A%A8%E9%A2%86JD%E4%BA%AC%E8%B1%86/</url>
+      
+        <content type="html"><![CDATA[<p>青龙面板是一个多功能的可视化面板，本教程利用青龙面板来自动执行京东领京豆，做东东农场任务签到浇水免费领水果，京喜牧场养小鸡收集鸡蛋，京东极速版金币，京东赚赚领金币，东东萌宠喂养。同时还能自动领取京东红包、京喜红包、京东极速版红包……</p><h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><ol><li>需要一台服务器，最好是国内的，毕竟你是在国内使用京东购物，挂机服务器在海外太过明显。</li><li>全新安装 CentOS操作系统，并放开 22、5600 端口，如果想安装宝塔，则额外放开 888、8888 端口。</li></ol><h1 id="安装青龙面板"><a href="#安装青龙面板" class="headerlink" title="安装青龙面板"></a>安装青龙面板</h1><p>通过 SSH 连接服务器，安装 Docker 环境。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure><p>启动 Docker（下方第一行），并设置 Docker 开机自动启动 （下方第二行） 。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl enable docker</span><br></pre></td></tr></table></figure><p>直接执行下方代码拉取镜像：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull whyour/qinglong:latest</span><br></pre></td></tr></table></figure><p>如果你是群辉之类的 NAS 安装青龙镜像，在 Dockers 官方镜像列表中拉取最新版的青龙镜像，直接使用 Dockers 搜索镜像<code>qinglong</code>即可。</p><p>接着部署青龙面板：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit \</span><br><span class="line">-v $PWD/ql/config:/ql/config \</span><br><span class="line">-v $PWD/ql/log:/ql/log \</span><br><span class="line">-v $PWD/ql/db:/ql/db \</span><br><span class="line">-p 5600:5600 \</span><br><span class="line">--name qinglong \</span><br><span class="line">--hostname qinglong \</span><br><span class="line">--restart always \</span><br><span class="line">whyour/qinglong:latest</span><br></pre></td></tr></table></figure><h1 id="初始化青龙面板"><a href="#初始化青龙面板" class="headerlink" title="初始化青龙面板"></a>初始化青龙面板</h1><p>部署完成后，直接访问<code>IP:5600</code>访问青龙面板的安装界面。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216184333.png"></p><p>直接开始安装进入下一步。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216184403.png"></p><p>这里可以根据你自己的喜欢设置通知方式，比如每天22:00告诉你今天领取了多少京豆、多少金币、多少红包……当然，你也可以直接跳过该步骤。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216184443.png"></p><p>设置管理员账号密码，这是初始化安装青龙面板最重要的步骤，当然，如果你不小心忘了，或者说不明原因没有进入这个配置页面，也没有关系，可以通过 SSH 执行下方命令查看账号及密码。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it qinglong cat /ql/config/auth.json</span><br></pre></td></tr></table></figure><h1 id="配置青龙面板定时任务"><a href="#配置青龙面板定时任务" class="headerlink" title="配置青龙面板定时任务"></a>配置青龙面板定时任务</h1><p>青龙面板本身不具备京东脚本的功能，只是一个管理和执行相应脚本的可视化平台。为了使其能够完成媷羊毛的功能，接下来使用青龙面板拉去一些库，使其自动更新一些功能。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216184720.png"></p><p>登录面板后选择<code>定时任务</code>→<code>添加任务</code>。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216185453.png"></p><h1 id="京东定时任务库"><a href="#京东定时任务库" class="headerlink" title="京东定时任务库"></a>京东定时任务库</h1><p>下方整理 GitHub 上的一些任务库，通过添加任务，并设置定时规则，使其自动拉取、更新羊毛任务。</p><p><strong>KingRan&#x2F;KR（集合库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/KingRan/KR.git &quot;jd_|jx_|jdCookie&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|utils|function|sign|sendNotify|ql|JDJR&quot;</span><br></pre></td></tr></table></figure><p><strong>Curtinlv 仓库</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/curtinlv/JD-Script.git</span><br></pre></td></tr></table></figure><p><strong>Zy143L&#x2F;wskey（wskey转换库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/Zy143L/wskey.git &quot;wskey&quot;</span><br></pre></td></tr></table></figure><p><strong>smiek2121（开卡库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo ql repo https://github.com/smiek2121/scripts.git &quot;jd_|gua_&quot; &quot;&quot; &quot;ZooFaker_Necklace.js|JDJRValidator_Pure.js|sign_graphics_validate.js|cleancart_activity.js|jdCookie.js|sendNotify.js&quot;</span><br></pre></td></tr></table></figure><p><strong>Yun-City&#x2F;City（集合库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/Yun-City/City.git &quot;jd_|jx_|gua_|jddj_|getJDCookie&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|function|utils|sendnotify|ZooFaker_Necklace|jd_Cookie|JDJRValidator_|sign_graphics_validate|ql|magic|cleancart_activity&quot;</span><br></pre></td></tr></table></figure><p><strong>6dylan6&#x2F;jdpro（集合库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/6dylan6/jdpro.git &quot;jd_|jx_|jddj_&quot; &quot;backUp&quot; &quot;^jd[^_]|USER|JD|function|sendNotify&quot;</span><br></pre></td></tr></table></figure><p><strong>gys619&#x2F;Absinthe（集合库）</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/gys619/Absinthe.git &quot;jd_|jx_|jddj_|gua_|getJDCookie|wskey&quot; &quot;activity|backUp&quot; &quot;^jd[^_]|USER|utils|ZooFaker_Necklace|JDJRValidator_|sign_graphics_validate|jddj_cookie|function|ql|magic|JDJR|JD&quot; &quot;main&quot;</span><br></pre></td></tr></table></figure><p><strong>zero205&#x2F;JD_tencent_scf</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/zero205/JD_tencent_scf.git &quot;jd_|jx_|jdCookie&quot; &quot;backUp|icon&quot; &quot;^jd[^_]|USER|sendNotify|sign_graphics_validate|JDJR|JDSign|ql&quot; &quot;main&quot;</span><br></pre></td></tr></table></figure><p><strong>龙珠</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ql repo https://github.com/whyour/hundun.git &quot;quanx&quot; &quot;tokens|caiyun|didi|donate|fold|Env&quot;</span><br></pre></td></tr></table></figure><p>为了防止漏掉某些羊毛，<strong>上方所有的库</strong>新建定时任务拉取，里面有重复脚本禁用脚本，重复的内容会被禁用的。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216185930.png"></p><h1 id="定时规则"><a href="#定时规则" class="headerlink" title="定时规则"></a>定时规则</h1><p>这里的定时规则如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">秒 分 时 天 月 周</span><br></pre></td></tr></table></figure><p>各个单位之间分别以空格分割，假设该任务需要每天12:23:45执行一次。那么则应该这么设置：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">45 23 12 * * *</span><br></pre></td></tr></table></figure><p>拉完之后记得运行，不运行的话要等到你设置好的时间才会自动执行。运行后会自动拉去一些执行活动的脚本</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216190140.png"></p><h1 id="获取京东Cookie"><a href="#获取京东Cookie" class="headerlink" title="获取京东Cookie"></a>获取京东Cookie</h1><p>使用 Chrome 内核浏览器（比如 Google 浏览器、Edge 浏览器、360 极速浏览器……），打开开发者模式（快捷键：F12），打开 Network（网络）标签，浏览器当前页面访问京东移动端登录地址<code>m.jd.com</code>，按照提示登录你的京东账号，复制你的京东账号 Cookie，也就是下图所示内容：</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216214832.png"></p><p>然后打开青龙面板，选择<code>环境变量</code>→<code>添加变量</code>，名称为<code>JD_COOKIE</code>，值为刚复制的京东账号<code>Cookie</code>，备注自己填方便识别，别的不需要动。添加后点<code>确定</code>就可以，如果需要添加多个账号，只需要获取多个Cookie添加上去就可以了，名称仍然为<code>JD_COOKIE</code>。</p><p><img src="https://img.dujin.org/uploads/2021/12/20211216190257.png"></p><p>添加好京东账号 Cookie 之后就可以去执行脚本了，如果等不及想尝试，可以自己触发脚本运行，否则就会在相应的时间执行。</p><p>顺带一说，Cookie 值并不需要这么多，只需要里面的<code>pt_key</code>与<code>pt_pin</code>两个就行了，懂的人自行提取，不懂的人全部复制粘贴上去。</p><p><strong>温馨提醒：</strong>不要频繁的去执行，避免黑号。还有就是建议京东账号绑定微信，有个活动抽奖抽到微信红包会自动提现到微信钱包。</p><h1 id="开启京东游戏任务"><a href="#开启京东游戏任务" class="headerlink" title="开启京东游戏任务"></a>开启京东游戏任务</h1><p>建议把所有活动游戏都点击一次，京东工厂这种需要自己选产品的建议自己选，不然会自动选一个，有的干脆不选。这里给大家说下各个游戏入口位置：</p><p>京东APP</p><ul><li><p>摇钱树：京东APP→右下角我的→中间更多工具</p></li><li><p>东东萌宠：京东APP→右下角我的</p></li><li><p>宠汪汪：京东APP→右下角我的</p></li><li><p>东东农场：京东APP→右下角我的</p></li><li><p>京喜工厂：惊喜APP→右下角我的</p></li><li><p>京喜牧场：惊喜APP→右下角我的</p></li><li><p>京喜财富岛：惊喜APP→右下角我的</p></li><li><p>发财大赢家：京东极速版→右下角我的</p></li><li><p>汪汪乐园：京东极速版→右下角我的</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 薅羊毛 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 薅羊毛 </tag>
+            
+            <tag> JD </tag>
+            
+            <tag> 青龙面板 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>访客地图</title>
+      <link href="/2022/03/10/%E8%AE%BF%E5%AE%A2%E5%9C%B0%E5%9B%BE/"/>
+      <url>/2022/03/10/%E8%AE%BF%E5%AE%A2%E5%9C%B0%E5%9B%BE/</url>
+      
+        <content type="html"><![CDATA[<h1 id="访客地图"><a href="#访客地图" class="headerlink" title="访客地图"></a>访客地图</h1><p>前往 clustrmaps 网站注册一个帐号。</p><p>找到 Free Tools下面的 Website Widget, 点击 Get Map Widget。</p><p>输入你的博客网址，点击Next。根据你自己的喜好选择样式Map widget 或 Globe Widget。</p><p>找到如下代码，记住 src (** 的部分):</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; id=&quot;clstr_globe&quot; src=&quot;**********************&quot;&gt;</span><br></pre></td></tr></table></figure><p>在 <strong>themes\Butterfly\layout\includes\widget</strong>文件夹新建<strong>card_map.pug</strong>文件，文件内容如下：</p> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card-widget.card-map</span><br><span class="line">  .card-content</span><br><span class="line">    .item-headline</span><br><span class="line">      i.fa.fa-globe-asia(aria-hidden=&quot;true&quot;)</span><br><span class="line">      span= _p(&#x27;aside.card_map&#x27;)</span><br><span class="line">    script#clstr_globe(type=&quot;text/javascript&quot; defer=&quot;defer&quot; src=&quot;此处填入你自己的代码&quot;)</span><br></pre></td></tr></table></figure><p>编辑 <strong>themes\Butterfly\layout\includes\widget\index.pug</strong> 文件，在你想要显示的位置插入以下代码：</p> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!=partial(&#x27;includes/widget/card_map&#x27;, &#123;&#125;, &#123;cache: true&#125;)</span><br></pre></td></tr></table></figure><p>（切记：如果主题版本大于3.6，请务必将**{cache:theme.fragment_cache}** 改为 { **cache:true }**）：</p><p>编辑_config.butterfly.yml 文件，在<strong>card_webinfo</strong> 下面添加一行<strong>card_map: true</strong></p><p>编辑<strong>themes\Butterfly\languages\zh-CN.yml</strong>文件 (请根据你的网站语言选择)，找到<strong>card_announcement:</strong> 公告 , 在下面添加一行<strong>card_map: 访客地图</strong> (后面的文本可自定义),繁体字方法一样，修改<strong>themes\Butterfly\languages\zh-TW.yml</strong>文件就行。</p><p>如果不想显示，直接把 <strong>_config.butterfly.yml</strong>文件的<strong>card_map: true</strong> 改为 <strong>card_map: false</strong> 即可。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Butterfly美化 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 美化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>pixie日推</title>
+      <link href="/2022/03/08/pixie%E6%97%A5%E6%8E%A8/"/>
+      <url>/2022/03/08/pixie%E6%97%A5%E6%8E%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="pixie日推"><a href="#pixie日推" class="headerlink" title="pixie日推"></a>pixie日推</h1><blockquote><p>注意： <a href="https://cloud.mokeyjay.com/pixiv">https://cloud.mokeyjay.com/pixiv</a> 使用的是<a href="https://www.mokeyjay.com/">超能小紫</a>提供的服务，也可以自行搭建，搭建方式请看这里-&gt;<a href="https://www.mokeyjay.com/archives/1063">传送门</a></p></blockquote><h2 id="Butterfly主题"><a href="#Butterfly主题" class="headerlink" title="Butterfly主题"></a>Butterfly主题</h2><ol><li><p>在 <strong>themes\Butterfly\layout\includes\widget</strong>文件夹新建card_pixiv.pug 文件，文件内容如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card-widget.card-pixiv</span><br><span class="line">  .card-content</span><br><span class="line">    .item-headline</span><br><span class="line">      i.fa.fa-image(aria-hidden=&quot;true&quot;)</span><br><span class="line">      span= _p(&#x27;aside.card_pixiv&#x27;)</span><br><span class="line">    iframe(src=&quot;https://cloud.mokeyjay.com/pixiv&quot; frameborder=&quot;0&quot; style=&quot;width:99%;height:380px;margin:0;&quot;)</span><br></pre></td></tr></table></figure></li><li><p>编辑 <strong>themes\Butterfly\layout\includes\widget\index.pug</strong> 文件，在你想要显示的位置插入以下代码（注意要对齐还有不要有空格符）：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if theme.aside.card_pixiv</span><br><span class="line">       !=partial(&#x27;includes/widget/card_pixiv&#x27;, &#123;&#125;, &#123;cache:theme.fragment_cache&#125;)</span><br></pre></td></tr></table></figure></li><li><p>编辑 <strong>butterfly.yml</strong> 文件，在 <strong>card_webinfo</strong> 下面添加一行 <strong>card_pixiv: true</strong></p></li><li><p>编辑 <strong>themes\Butterfly\languages\zh-CN.yml</strong> 文件 (请根据你的网站语言选择)，找到 <strong>card_announcement:</strong> 公告 , 在下面添加一行 <strong>card_pixiv: Pixiv日榜Top50</strong>(后面的文本可自定义)</p></li><li><p>如果不想显示，直接把 <strong>butterfly.yml</strong> 文件的 <strong>card_pixiv: true</strong> 改为 <strong>card_pixiv: false</strong> 即可</p></li></ol><blockquote><p><strong>文章来自转载：</strong></p><p><strong>文章作者:</strong> <a href="mailto:undefined">bt-sonny</a></p><p><strong>文章链接:</strong> <a href="https://chuchendjs.github.io/posts/BY-MOchange/">https://chuchendjs.github.io/posts/BY-MOchange/</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Butterfly美化 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 美化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2022/03/01/hello-world/"/>
+      <url>/2022/03/01/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
