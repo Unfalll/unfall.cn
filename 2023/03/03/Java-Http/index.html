@@ -1,0 +1,596 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java_Http | Unfall_Blog</title><meta name="keywords" content="Java,JavaWeb"><meta name="author" content="Unfall"><meta name="copyright" content="Unfall"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="说到HTTP一个系统性了解还是去年看了些《HTTP权威指南》，本篇文章主要是复习一下HTTP相关知识，也是回忆自己看这本书大部分的能记忆下来的，权当是笔记吧。当然也是某个笔试题的总结。 [TOC]  HTTP概述首先了解HTTP协议得先知道HTTP报文结构，其中包括请求报文、返回报文： 请求报文包含四部分：  请求行：包含请求方法、URI、HTTP版本信息 请求首部字段 请求内容实体 空行  响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java_Http">
+<meta property="og:url" content="https://unfall.top/2023/03/03/Java-Http/index.html">
+<meta property="og:site_name" content="Unfall_Blog">
+<meta property="og:description" content="说到HTTP一个系统性了解还是去年看了些《HTTP权威指南》，本篇文章主要是复习一下HTTP相关知识，也是回忆自己看这本书大部分的能记忆下来的，权当是笔记吧。当然也是某个笔试题的总结。 [TOC]  HTTP概述首先了解HTTP协议得先知道HTTP报文结构，其中包括请求报文、返回报文： 请求报文包含四部分：  请求行：包含请求方法、URI、HTTP版本信息 请求首部字段 请求内容实体 空行  响应">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png">
+<meta property="article:published_time" content="2023-03-03T09:10:01.000Z">
+<meta property="article:modified_time" content="2023-03-03T09:11:36.706Z">
+<meta property="article:author" content="Unfall">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png"><link rel="shortcut icon" href="/img/cat.png"><link rel="canonical" href="https://unfall.top/2023/03/03/Java-Http/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java_Http',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-03 17:11:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s1.ax1x.com/2022/03/08/bcZYpd.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Unfall_Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java_Http</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-03T09:10:01.000Z" title="发表于 2023-03-03 17:10:01">2023-03-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-03T09:11:36.706Z" title="更新于 2023-03-03 17:11:36">2023-03-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/JavaWeb/">JavaWeb</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>26分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java_Http"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>说到HTTP一个系统性了解还是去年看了些《HTTP权威指南》，本篇文章主要是复习一下HTTP相关知识，也是回忆自己看这本书大部分的能记忆下来的，权当是笔记吧。当然也是某个笔试题的总结。</p>
+<p>[TOC]</p>
+<hr>
+<h2 id="HTTP概述"><a href="#HTTP概述" class="headerlink" title="HTTP概述"></a>HTTP概述</h2><p>首先了解HTTP协议得先知道HTTP报文结构，其中包括请求报文、返回报文：</p>
+<p>请求报文包含四部分：</p>
+<ul>
+<li>请求行：包含请求方法、URI、HTTP版本信息</li>
+<li>请求首部字段</li>
+<li>请求内容实体</li>
+<li>空行</li>
+</ul>
+<p>响应报文包含四部分：</p>
+<ul>
+<li>状态行：包含HTTP版本、状态码、状态码的原因短语</li>
+<li>响应首部字段</li>
+<li>响应内容实体</li>
+<li>空行</li>
+</ul>
+<p>常见的首部：</p>
+<ul>
+<li><strong>通用首部字段（请求报文与响应报文都会使用的首部字段）</strong><ul>
+<li>Date：创建报文时间</li>
+<li>Connection：连接的管理</li>
+<li>Cache-Control：缓存的控制</li>
+<li>Transfer-Encoding：报文主体的传输编码方式</li>
+</ul>
+</li>
+<li><strong>请求首部字段（请求报文会使用的首部字段）</strong><ul>
+<li>Host：请求资源所在服务器</li>
+<li>Accept：可处理的媒体类型</li>
+<li>Accept-Charset：可接收的字符集</li>
+<li>Accept-Encoding：可接受的内容编码</li>
+<li>Accept-Language：可接受的自然语言</li>
+</ul>
+</li>
+<li><strong>响应首部字段（响应报文会使用的首部字段）</strong><ul>
+<li>Accept-Ranges：可接受的字节范围</li>
+<li>Location：令客户端重新定向到的URI</li>
+<li>Server：HTTP服务器的安装信息</li>
+</ul>
+</li>
+<li><strong>实体首部字段（请求报文与响应报文的的实体部分使用的首部字段）</strong><ul>
+<li>Allow：资源可支持的HTTP方法</li>
+<li>Content-Type：实体主类的类型</li>
+<li>Content-Encoding：实体主体适用的编码方式</li>
+<li>Content-Language：实体主体的自然语言</li>
+<li>Content-Length：实体主体的的字节数</li>
+<li>Content-Range：实体主体的位置范围，一般用于发出部分请求时使用</li>
+</ul>
+</li>
+</ul>
+<p>当然你也得区分URI 统一资源标识符（Uniform Resource Identifier）、URL 统一资源定位符、URN 统一资源名；</p>
+<p><strong>URI，是uniform resource identifier，统一资源标识符，用来唯一的标识一个资源。</strong></p>
+<ul>
+<li>Web上可用的每种资源如HTML文档、图像、视频片段、程序等都是一个来URI来定位的</li>
+<li>URI一般由三部组成：</li>
+<li>①访问资源的命名机制</li>
+<li>②存放资源的主机名</li>
+<li>③资源自身的名称，由路径表示，着重强调于资源。</li>
+</ul>
+<p><strong>URL是uniform resource locator，统一资源定位器，它是一种具体的URI，即URL可以用来标识一个资源，而且还指明了如何locate这个资源。</strong></p>
+<p>URL通用格式：</p>
+<p><code>&lt;scheme&gt;://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;frag&gt;</code></p>
+<ul>
+<li>URL是Internet上用来描述信息资源的字符串，主要用在各种WWW客户程序和服务器程序上，特别是著名的Mosaic。</li>
+<li>采用URL可以用一种统一的格式来描述各种信息资源，包括文件、服务器的地址和目录等。URL一般由三部组成：</li>
+<li>①协议(或称为服务方式)</li>
+<li>②存有该资源的主机IP地址(有时也包括端口号)</li>
+<li>③主机资源的具体地址。如目录和文件名等</li>
+</ul>
+<p><strong>URN，uniform resource name，统一资源命名，是通过名字来标识资源，比如mailto:<a href="mailto:&#106;&#x61;&#118;&#x61;&#45;&#110;&#101;&#x74;&#x40;&#x6a;&#x61;&#118;&#97;&#x2e;&#115;&#117;&#x6e;&#46;&#x63;&#111;&#109;">&#106;&#x61;&#118;&#x61;&#45;&#110;&#101;&#x74;&#x40;&#x6a;&#x61;&#118;&#97;&#x2e;&#115;&#117;&#x6e;&#46;&#x63;&#111;&#109;</a>。</strong></p>
+<ul>
+<li>URI是以一种抽象的，高层次概念定义统一资源标识，而URL和URN则是具体的资源标识的方式。URL和URN都是一种URI。笼统地说，每个 URL 都是 URI，但不一定每个 URI 都是 URL。这是因为 URI 还包括一个子类，即统一资源名称 (URN)，它命名资源但不指定如何定位资源。上面的 mailto、news 和 isbn URI 都是 URN 的示例。</li>
+</ul>
+<p>HTTP 事物组成，包括 请求方法、返回状态码；你还得知道请求报文、返回报文 结构的相同性及不同性；</p>
+<p>常见的HTTP状态码，状态码 分五种类型：信息性-1开头、成功-2开头、重定向-3开头、客户端错误-4开头、服务器错误-5开头。</p>
+<ul>
+<li>200：请求被正常处理</li>
+<li>204：请求被受理但没有资源可以返回</li>
+<li>206：客户端只是请求资源的一部分，服务器只对请求的部分资源执行GET方法，相应报文中通过Content-Range指定范围的资源。</li>
+<li>301：永久性重定向</li>
+<li>302：临时重定向</li>
+<li>303：与302状态码有相似功能，只是它希望客户端在请求一个URI的时候，能通过GET方法重定向到另一个URI上</li>
+<li>304：发送附带条件的请求时，条件不满足时返回，与重定向无关</li>
+<li>307：临时重定向，与302类似，只是强制要求使用POST方法</li>
+<li>400：请求报文语法有误，服务器无法识别</li>
+<li>401：请求需要认证</li>
+<li>403：请求的对应资源禁止被访问</li>
+<li>404：服务器无法找到对应资源</li>
+<li>500：服务器内部错误</li>
+<li>503：服务器正忙</li>
+</ul>
+<p>接下来我们就可以看看HTTP是怎么连接的，这里就涉及到网络模型 各个层协议得作用，HTTP 协议处于应用层，使用传输层 TCP作为网络传输，大家有兴趣可以理解下[TCP与UDP](.&#x2F;TCP和UDP 总结.md)，TCP会调用网络层的IP 协议进行TCP数据分组传输，在此期间 TCP保证了稳定的数据传输、按序传输、分段数据流，你知道这些，你肯定会被问到  浏览器访问HTTP网站的整个流程；</p>
+<br>
+
+<p>##HTTP协议版本了解</p>
+<p>接下来可能需要一些衍生了解HTTP协议版本，是如何从HTTP 0.9 升到 现在的HTTP 2.0，我们现在大多数使用的是HTTP 1.1。</p>
+<p>HTTP 0.9 作为当初推出的第一个版本，当然也会存在非常多的Bug 缺陷，在这个版本只支持GET 请求，不支持多媒体内容MIME类型、各种HTTP首部、版本号，当时的目的 只是获取简单的HTML对象。</p>
+<p>HTTP 1.0 在HTTP 0.9 基础上 加了HTTP 版本，各种HTTP 首部、一些额外的请求方法、多媒体类型支持。还有就是发送一次请求时，需要<strong>等待服务端响应了</strong>才可以继续发送请求。</p>
+<p>HTTP 1.0+ 这是一种非正式的HTTP 1.0 扩展版，加入比较多的特性，如持久化链接、虚拟主机支持、代理。</p>
+<p>HTTP 1.1 这个版本大家可能比较熟悉，就是我们平常在使用，这个版本重点是校正HTTP 设计中的结构性缺陷，明确语义，还有一部分性能优化措施 如默认开启持久化链接、Host 首部字段、Chunked transfer-coding 断点续传，也优化了不好用的特性。还有就是发送一次请求时，不需要等待服务端响应了就可以发送请求了，但是回送数据给客户端的时候，客户端还是需要按照<strong>响应的顺序</strong>来一一接收</p>
+<ul>
+<li><strong>持久连接</strong></li>
+<li>请求管道化</li>
+<li>增加缓存处理（新的字段如cache-control）</li>
+<li>增加Host字段、支持断点传输等</li>
+</ul>
+<p>HTTP 2.0 主要的是性能大幅度优化，更强大的服务逻辑远程执行框架。加入了管线化pipelining链接。</p>
+<blockquote>
+<p>HTTP Pipelining其实是把多个HTTP请求放到一个TCP连接中一一发送，而在发送过程中不需要等待服务器对前一个请求的响应；只不过，<strong>客户端还是要按照发送请求的顺序来接收响应！</strong></p>
+</blockquote>
+<p>管线化pipelining链接 理论主要是解决了线头阻塞的问题！其中最重要的改动是：多路复用 (Multiplexing)</p>
+<p>线头阻塞 是因为返回结果 在前面HTTP协议中是按序接受的，多路复用意味着线头阻塞将不在是一个问题，允许同时通过单一的 HTTP&#x2F;2 连接发起<strong>多重的请求-响应消息</strong>，合并多个请求为一个的优化将不再适用。</p>
+<p>我在网上找了个图 可以直接说明 HTTP 2是如何进行性能优化的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eaef547ad1464?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>HTTP2所有性能增强的核心在于<strong>新的二进制分帧层</strong>(不再以文本格式来传输了)，它定义了如何封装http消息并在客户端与服务器之间传输。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eaef59a266e62?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>看上去协议的格式和HTTP1.x完全不同了，<strong>实际上HTTP2并没有改变HTTP1.x的语义</strong>，只是把原来HTTP1.x的header和body部分用<strong>frame重新封装了一层</strong>而已</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eaef56ba56ba1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>HTTP2连接上<strong>传输的每个帧都关联到一个“流”</strong>。流是一个独立的，双向的帧序列可以通过一个HTTP2的连接在服务端与客户端之间不断的交换数据。</p>
+<p>HTTP2还有一些比较重要的改动：</p>
+<ul>
+<li>使用HPACK对HTTP&#x2F;2头部压缩</li>
+<li>服务器推送<ul>
+<li>HTTP2推送资料</li>
+</ul>
+</li>
+<li>流量控制<ul>
+<li>针对传输中的<strong>流</strong>进行控制(TCP默认的粒度是针对连接)</li>
+</ul>
+</li>
+<li>流优先级（Stream Priority）它被用来告诉<strong>对端哪个流更重要</strong>。</li>
+<li>二进制分帧</li>
+<li><strong>多路复用</strong></li>
+<li>头部压缩</li>
+<li>服务器推送</li>
+</ul>
+<p>非常详细请<a target="_blank" rel="noopener" href="https://juejin.im/post/5b88a4f56fb9a01a0b31a67e">HTTP2.0 阅读</a></p>
+<h4 id="回顾HTTP-x2F-2"><a href="#回顾HTTP-x2F-2" class="headerlink" title="回顾HTTP &#x2F; 2"></a>回顾HTTP &#x2F; 2</h4><p>HTTP &#x2F; 2协议规范（<a target="_blank" rel="noopener" href="https://httpwg.org/specs/rfc7540.html">RFC 7540</a>）于2015年5月发表，从那之后，它被广泛地在Internet和WWW上实现。</p>
+<p>2018年初，前1000大网站中约40％实现了HTTP &#x2F; 2协议，在火狐发出的HTTPS请求中，近70％的请求由HTTP &#x2F; 2回复。主流的浏览器，服务器，代理均支持了HTTP &#x2F; 2。</p>
+<p>HTTP &#x2F; 2的出现揭露了HTTP &#x2F; 1中的很多问题，其中相当一部分对于开发者来说非常麻烦。在HTTP &#x2F; 2之前开发者要用很多变通方法来解决，而HTTP &#x2F; 2的出现解决了这些问题。</p>
+<p>HTTP &#x2F; 2的一个主要特性是复用（多路复用）通过复用，多个逻辑数据流可以共享一个TCP连接复用使得很多事情变得更好更快：。更好的拥塞控制，更好的带宽利用，更长的TCP连接—-这些都使得相比以前，链路更容易实现全速的传输。另外，头部压缩技术减少了带宽的使用。</p>
+<p>以前，每个<em>主机</em>和浏览器需要<em>六个</em>连接，通过HTTP &#x2F; 2，我们只需要<em>一个</em> TCP连接。其实，HTTP &#x2F; 2使用的连接聚合（连接合并）和“去分片”（desharding）技术还可以把连接数进一步缩小。</p>
+<p>用了HTTP &#x2F; 2之后，HTTP的队头拥塞（线头阻挡）问题好像被解决了。以前客户端发请求之前，必须等待前边的请求回复回来，那样的日子已经一去不复返了。</p>
+<br>
+
+<h4 id="HTTP-x2F-3"><a href="#HTTP-x2F-3" class="headerlink" title="HTTP &#x2F; 3"></a>HTTP &#x2F; 3</h4><p>HTTP &#x2F; 2标准RFC7540发布于2015年5月，只比<strong>QUIC</strong>首次进入IETF早一个月。</p>
+<p>HTTP &#x2F; 2的发布为HTTP进化提供了好的经验。这一经验让大家相信，迭代更新的HTTP版本会比从第一版到HTTP2（花了16年）快得多。</p>
+<p>HTTP &#x2F; 2的发布让用户和软件意识到，HTTP不是一个纯粹序列化的，基于文本的协议。</p>
+<p>【HTTP的过QUIC于2018年11月更名为HTTP &#x2F; 3】。</p>
+<p>QUIC就是一个名字，而不是什么的缩略词。它的发音和英语单词快速一样。</p>
+<p>QUIC是一种可靠又安全的新的传输层协议，它适合为类似HTTP的应用层协议提供服务。在通过TCP或TLS传输的HTTP &#x2F; 2协议中遇到过很多问题，这些问题可以通过QUIC来解决.QUIC将会是下一代的网络传输层协议。</p>
+<p>QUIC的用途不仅限于HTTP。我们希望将网络和数据更快地交付给终端用户，这是创造QUIC这一新的传输层协议的最大的源动力和原因。</p>
+<br>
+
+<p>HTTP &#x2F; 2是HTTP流量通过网络传输的一种新方式，与之类似，HTTP &#x2F; 3是另一种传输HTTP的方式。</p>
+<p>HTTP的范式（范例）和概念没有改变.HTTP含有头部（头）和正文，请求报文和回复报文。还有动词（动词），饼干和缓存（高速缓存）.HTTP &#x2F; 3主要改变的是这些报文比特传送到另一端的方式。</p>
+<p>为了让HTTP可以通过QUIC传输，需要对协议进行修改这些修改的结果便是HTTP &#x2F; 3这些修改是因为QUIC和TCP的性质不同导致的修改包括。：</p>
+<ul>
+<li>QUIC中，数据流由传输层负责，在HTTP &#x2F; 2中由HTTP层负责。</li>
+<li>由于数据流互相独立，如果头部压缩算法不做改动的话，会造成队头阻塞。</li>
+<li>QUIC流和HTTP &#x2F; 2稍稍不同。在HTTP &#x2F; 3中应对了这些不同。</li>
+</ul>
+<p>如果想看 <a target="_blank" rel="noopener" href="https://github.com/bagder/http3-explained/blob/master/zh/SUMMARY.md">HTTP 3.0 详细背景、进展、特点、工作原理、对比HTTP 2.0</a></p>
+<br>
+
+<p>在这里不讲<a href="./HTTPS%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3.md">HTTPS协议</a></p>
+<br>
+
+<h2 id="HTTP连接管理"><a href="#HTTP连接管理" class="headerlink" title="HTTP连接管理"></a>HTTP连接管理</h2><p>说到HTTP连接，实际上就是TCP连接和一些使用连接的规则。TCP在传输层上来说是个可靠连接协议。</p>
+<p>首先TCP会为HTTP提供一条可靠的比特传输管道，从TCP连接一端填入的字节会从另外一端以原有的顺序、正确地传送出来；TCP的数据流会先进行分段，通过IP分组的小数据块发送的，每个TCP段都是由IP分组承载，从一个IP到地址发送到另外一个IP的。</p>
+<p><img src="D:\Blog\java笔记\my-review\image\tcp-ip.png" alt="tcp-ip"></p>
+<p>那么每个IP分组都包括：</p>
+<ul>
+<li>IP分组首部——通常20字节，包含 源和目的IP地址、长度和一些标识、分组ID、</li>
+<li>TCP段首部——通常20字节，包含了TCP 源和目的 端口号、TCP控制标记，及用于数据排序和完整性检查的一些数字值、窗口尺寸、保留字、及部分控制标识（ACK、SYN、FIN、RST、URG、PSH）</li>
+<li>TCP数据块——0+个字节</li>
+</ul>
+<p>在TCP段首部中 控制标识，那这些在TCP连接（三次握手、四次挥手 这些后面会说）起了非常重要的作用：</p>
+<ol>
+<li>紧急URG，当URG&#x3D;1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据；</li>
+<li>确认ACK，仅当ACK&#x3D;1时，确认号（一般是小写 ack）字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1；</li>
+<li>推送PSH，当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH&#x3D;1；</li>
+<li>复位RST，当RST&#x3D;1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接；</li>
+<li>同步SYN，在连接建立时用来同步序号。当SYN&#x3D;1，ACK&#x3D;0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN&#x3D;1，ACK&#x3D;1；</li>
+<li>终止FIN，用来释放连接。当FIN&#x3D;1，表明此报文的发送方的数据已经发送完毕，并且要求释放；</li>
+</ol>
+<p>那么浏览器从输入地址到返回结果，这里发生了什么事情呢？</p>
+<ol>
+<li>首先解析出主机名</li>
+<li>查询出主机名的相对应IP地址 （DNS）</li>
+<li>浏览器获得端口号</li>
+<li>浏览器发起到目的IP端口的TCP连接</li>
+<li>浏览器向服务器发送HTTP METHOD 报文</li>
+<li>浏览器从服务器读取返回的报文</li>
+<li>浏览器关闭连接</li>
+</ol>
+<p>以上是HTTP请求简化 是因为这里没涉及到HTTP、TCP一些特性(如TCP管道持久化等)，HTTP连接主要依赖TCP连接。</p>
+<p>那么TCP是如何进行双方的连接呢？其实TCP连接步骤 有点像socket 套接字编程步骤：</p>
+<ul>
+<li>服务端 S1（服务端用S表示、客户端用C表示，数字表示相对应端的步骤序号）创建新的套接字 socket</li>
+<li>S2将socket绑定到端口上 bind</li>
+<li>S3允许socket进行连接 listen</li>
+<li>S4 等待连接 accept</li>
+<li>C1 获取本地客户端 IP地址和端口号</li>
+<li>C2创建新的套接字 socket</li>
+<li>C3 连接到服务器 IP 端口 connect </li>
+<li>S5 通知应用程序有连接到来</li>
+<li>S6开始读取请求 read</li>
+<li>C4 连接成功</li>
+<li>C5 发送HTTP 请求 write</li>
+<li>C6 等待HTTP响应 read</li>
+<li>S7处理HTTP请求报文</li>
+<li>S8回送HTTP响应 write</li>
+<li>C7 读取及处理HTTP响应</li>
+<li>S9关闭连接 close</li>
+<li>C8 关闭连接 close</li>
+</ul>
+<p>在这里TCP请求流量 没体现出 TCP三次握手四次挥手，这是建立连接、及关闭连接的时候发生的。</p>
+<p>我们可以先看下TCP通信整个流程：</p>
+<p><img src="https://gitee.com/Unfall/blogimage/raw/master/img/tcp.png" alt="tcp通信图"></p>
+<h3 id="TCP性能分析"><a href="#TCP性能分析" class="headerlink" title="TCP性能分析"></a>TCP性能分析</h3><p>虽然HTTP是建立在TCP上，TCP也有一些性能优化方式。HTTP事务的性能在很大程度上取决于底层TCP通道的性能。</p>
+<p>只有先理解TCP某些特性后，才能更好的理解HTTP连接优化特性。</p>
+<p>最常见、会对HTTP产生影响的TCP相关时延：</p>
+<ul>
+<li>建立握手</li>
+<li>慢启动拥塞控制</li>
+<li>数据聚集的Nagle算法</li>
+<li>用于捎带确认的TCP延迟确认算法</li>
+<li>TIME_WAIT时延和端口耗尽</li>
+</ul>
+<p>我们来分别来解释为什么会有以上这些时延，怎么发生的。</p>
+<p>1、TCP连接的握手时延</p>
+<p>TCP连接<strong>三次握手步骤</strong>：在握手主要注意的是TCP段首部的那几个控制标识</p>
+<p><strong>最开始的时候客户端和服务器都是处于CLOSED状态。主动打开连接的为客户端，被动打开连接的是服务器。</strong></p>
+<ul>
+<li>TCP服务器进程先创建传输控制块TCB，时刻准备接受客户进程的连接请求，此时服务器就进入了LISTEN（监听）状态；</li>
+<li>TCP客户进程也是先创建传输控制块TCB，然后向服务器发出连接请求报文，这是报文首部中的同部位SYN&#x3D;1，同时选择一个初始序列号 seq&#x3D;x ，此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定，SYN报文段（SYN&#x3D;1的报文段）不能携带数据，但需要消耗掉一个序号。</li>
+<li>TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK&#x3D;1，SYN&#x3D;1，确认号是ack&#x3D;x+1，同时也要为自己初始化一个序列号 seq&#x3D;y，此时，TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据，但是同样要消耗一个序号。</li>
+<li>TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK&#x3D;1，ack&#x3D;y+1，自己的序列号seq&#x3D;x+1，此时，TCP连接建立，客户端进入ESTABLISHED（已建立连接）状态。TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ul>
+<p><strong>注：为什么TCP客户端还需要发送一次确认？</strong></p>
+<blockquote>
+<p>如果使用的是两次握手建立连接，假设有这样一种场景，</p>
+<p>客户端发送了第一个请求连接并且没有丢失，只是因为在网络结点中滞留的时间太长了，由于TCP的客户端迟迟没有收到确认报文，以为服务器没有收到，此时重新向服务器发送这条报文，此后客户端和服务器经过两次握手完成连接，传输数据，然后关闭连接。</p>
+<p>此时此前滞留的那一次请求连接，网络通畅了到达了服务器，这个报文本该是失效的，但是，两次握手的机制将会让客户端和服务器再次建立连接，这将导致不必要的错误和资源的浪费。</p>
+<p>如果采用的是三次握手，就算是那一次失效的报文传送过来了，服务端接受到了那条失效报文并且回复了确认报文，但是客户端不会再次发出确认。由于服务器收不到确认，就知道客户端并没有请求连接。</p>
+</blockquote>
+<p>此时，SYN&#x2F;SYN+ACK握手会产生一个可测量的时延。如果当前HTTP事物 需要的数据量较小的话，那么这TCP握手占用整个HTTP事务 比例多，那么现在HTTP如何通过重用现存的连接，来减少这种TCP建立时延。那就是HTTP持久化连接。</p>
+<p>2、延时确认</p>
+<p>因为因特网无法确保可靠的分组传输，所以TCP实现了自己的确认机制来确保数据的成功传输。</p>
+<p>每个TCP段 的接受者 收到了完整的段时，都会向发送这回送小的确认分组，如果发送这没有在指定的窗口时间内收到确认信息，那发送者会认为该分组已被破坏损毁，及重新发送数据。</p>
+<p>“延迟确认”算法会在一个特定的窗口时间（通常是100至200ms）内将输出确认存在在缓冲区中，以寻找能够捎带它输出的数据分组，如果那个时间段内没有输出数据分组，将单独的分组传送。</p>
+<p>3、TCP慢启动</p>
+<p>TCP数据传输的性能还取决于TCP连接的使用期。TCP连接会随着时间进行自我调谐，起初会限制连接的最大速度，如果数据成功传输，会随着时间的推移提高传输的速度。这种TCP慢启动，主要用于防止因特网的突然过载和拥塞。</p>
+<p>TCP慢启动限制了一个TCP端点在任意时刻可以传输的分组数。简单来说，每成功接收一个分组，发送端就有了发送另外两个分组的权限。所以HTTP事务有大量数据、大量数组分组要发送，这是不可能一次将所有分组都发送出去的。这种方式称为“打开拥塞窗口”。</p>
+<p>4、Nagle算法与TCP_NODELAY</p>
+<p>TCP有一个数据流接口，应用程序可以通过它将任意尺寸的数据放入TCP栈中——即使一次只放一个字节。我们分析IP协议各个部分可以看出，每个TCP段都至少需要40+个字节的IP首部、TCP段首部，还有部分的内容（TCP数据块），如果数据块过少 就会导致网络性能严重下降。</p>
+<p>Nagle算法就是试图在发送一个分组之前，将大量的TCP数据绑定在一起，以提供网络效率。该算法鼓励发送尺寸大约1500字节的段。只有当所有其他分组都被确认之后，Nagle算法 才会允许发送非全尺寸的分组。</p>
+<p>这种算法会导致 小的HTTP报文无法填满一个分组，可能一直不会有其他额外数据产生时延；其次 该算法会与 延迟确认 之间存在交互问题，该算法会阻止数据的发送，直到有确认分组抵达为止，但确认分组自身会被延迟确认算法延迟。</p>
+<p>5、TIME_WAIT累积与端口耗尽</p>
+<p>TIME_WAIT 大家可能对这单词可能有点迷糊，这是socket连接不同时候的状态标识，这是在TCP四次挥手出现的一种状态，在Linux 中可以 nstat 查看网络连接状态。大家可以从网上找socket连接图，我当时是从 《深入分析JavaWeb技术内幕——许令波》看到的。</p>
+<p>当某个TCp端点关闭TCP连接时，这类信息（关闭连接的IP地址和端口）只会在内存中生存一小段时间，通常是所估计得最大分段使用期的两倍2MSL(Maximum Segment Lifetime——最长报文段寿命)(约2分钟)左右，以确保在这段时间内不会创建相同地址和端口的新连接。</p>
+<p>是为了防止在两分钟内创建、关闭、并重新创建两个具有相同IP地址和端口号的连接。那为什么会有这种操作呢？这使得重复分组几乎不可能在连接关闭的几分钟之后，出现在服务器上，如果分组被复制，那这复制分组插入了具有相同连接值的新TCP流，会破坏TCP数据。</p>
+<p>每个客户端每次连接到服务器时，都会获取一个新的窗口，以实现连接的唯一性（源和目的IP及端口），但是服务器的端口是有限的，而且在2MSL内无法重用，连接速率就会限制在60000&#x2F;120&#x3D;500次&#x2F;秒。如果连接速率高于这个值，就会遇到TIME_WAIT端口耗尽问题，但修复这问题，可以增加集群机器数量，或者确保客户端和服务器在循环使用几个虚拟IP地址增加更多的理解组合。所以这TIME_WAIT 、控制块 大量连接处于这个状态，有些操作系统会受到严重的影响。</p>
+<p><strong>我们可以看下TCP是如何进行四次挥手，及为什么要比三次握手多一次呢？</strong></p>
+<p>数据传输完毕后，双方都可释放连接。最开始的时候，客户端和服务器都是处于ESTABLISHED状态，然后客户端主动关闭，服务器被动关闭。</p>
+<ol>
+<li>客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN&#x3D;1，其序列号为seq&#x3D;u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。</li>
+<li>服务器收到连接释放报文，发出确认报文，ACK&#x3D;1，ack&#x3D;u+1，并且带上自己的序列号seq&#x3D;v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。</li>
+<li>客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。</li>
+<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN&#x3D;1，ack&#x3D;u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq&#x3D;w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。</li>
+<li>客户端收到服务器的连接释放报文后，必须发出确认，ACK&#x3D;1，ack&#x3D;w+1，而自己的序列号是seq&#x3D;u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2MSL时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。</li>
+<li>服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</li>
+</ol>
+<p>在第5个步骤时：客户端进行了第四次挥手操作，<strong>那为什么还要等待2MSL</strong>?</p>
+<ul>
+<li>第一，保证客户端发送的最后一个ACK报文能够到达服务器，因为这个ACK报文可能丢失，站在服务器的角度看来，我已经发送了FIN+ACK报文请求断开了，客户端还没有给我回应，应该是我发送的请求断开报文它没有收到，于是服务器又会重新发送一次，而客户端就能在这个2MSL时间段内收到这个重传的报文，接着给出回应报文，并且会重启2MSL计时器。</li>
+<li>第二，防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</li>
+</ul>
+<p><strong>为什么建立连接是三次握手，关闭连接确是四次挥手呢？</strong></p>
+<ul>
+<li>建立连接的时候， 服务器在LISTEN状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里发送给客户端。 </li>
+<li>关闭连接时，服务器收到对方的FIN报文时，仅仅表示对方不再发送数据了但是还能接收数据，而自己也未必全部数据都发送给对方了，所以己方可以立即关闭，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，己方ACK和FIN一般都会分开发送，从而导致多了一次。</li>
+</ul>
+<br>
+
+<h2 id="HTTP连接处理"><a href="#HTTP连接处理" class="headerlink" title="HTTP连接处理"></a>HTTP连接处理</h2><p>以上我们刚刚探讨了TCP连接及性能分析，那这里就引入HTTP是如何连接及分析。</p>
+<ul>
+<li><p>串行连接</p>
+<p>该连接只是对连接简单的管理，TCP的性能时延（如慢启动时延、连接时延）可能会叠加起来。如果网页需要进渲染，就可能需要等待所有的网页对象，在这之前，页面可能是空白的。</p>
+</li>
+<li><p>并行连接</p>
+<p>并行发送多个TCP连接，可能会受到网络带宽影响，每次连接对象会去抢带宽资源，达到带宽上限就会每个连接对象的带宽都会下降。而且多个连接对象会消耗很多内存资源，引发自身性能问题。</p>
+</li>
+<li><p>持久连接</p>
+<p>重用TCP连接，可以消除<strong>连接及关闭时延</strong>。在HTTP 1.1时，请求首部默认 保持持久化连接，重用对目标服务器打开的空闲持久连接，可以避开缓慢的建立阶段，也会避免慢启动的拥塞阶段。不过请求首部 Keep-Alive字段 需要注意使用代理从而出现哑代理。如果代理不进行首部 头部字段处理，那么会导致盲中继问题。这样会导致只能等待连接关闭。导致客户端再进行发起同一条请求（持久化连接可以理解为另外一条请求就是同一条请求），然而代理并不认为是同一条（比如不支持持久化连接），就会丢弃该连接。</p>
+<p>这种问题 可以使用首部 Proxy-Connection 字段。</p>
+</li>
+<li><p>管道化连接</p>
+<p>管道化在HTTP 1.1就提出并有一定的操作，但是在HTTP 2.0用的比较成熟。</p>
+<p>管道化连接 消除了<strong>传输时延</strong>。在进行多个事务时候，管道化连接以一种非阻塞方式（有点像双工通信方式） 并行发送请求（但不是打开多个连接，只有一个），可以说是一个连接获取到 并行连接的效果，但不存在 并行连接的缺点。</p>
+</li>
+</ul>
+<br>
+
+<h2 id="web服务器会做什么"><a href="#web服务器会做什么" class="headerlink" title="web服务器会做什么"></a>web服务器会做什么</h2><p>在这里讨论web服务器一般对整个HTTP请求到响应的整个过程的动作。</p>
+<ol>
+<li><p>建立连接</p>
+<p>客户端请求一系列到Web服务器的TCP连接时，服务器会建立连接，判断连接的另一端是哪个客户端，从TCP连接中将Ip地址解析出来。一旦新连接建立起来并被接受，服务器就会将新连接添加到现存Web服务器连接列表中，做好监视连接上数据传输的准备。服务器可以随意拒绝或立即关闭任意一条连接（客户端Ip、主机名未认证，恶意客户端等），Apache 有启用HostnameLookups 主机名扫描功能，不过会消耗资源。</p>
+</li>
+<li><p>接受请求</p>
+<p>连接上有数据到达，web服务器将请求报文中的内容解析出来，一般将请求报文按照请求结构解析出服务器能够识别且支持的操作（可以理解为Java中的HttpServletRequest）。好的Web服务器能同时支持数千条连接。</p>
+<p>Web服务器也分多种类型（针对于接受请求）：单线程、多进程多线程、复用IO、复用多线程IO、</p>
+</li>
+<li><p>处理请求</p>
+<p>根据方法、资源、首部、和可选主体 进行请求处理</p>
+</li>
+<li><p>访问资源</p>
+<p>这里包括静态资源、动态内容资源的映射、访问控制</p>
+</li>
+<li><p>构建响应</p>
+<p>响应主体、MIME类型、重定向</p>
+</li>
+<li><p>发送响应</p>
+</li>
+<li><p>记录事务处理过程</p>
+<p>一般在响应结束后，一般会在日志记录一些信息，比如Tomcat 有access_log。</p>
+</li>
+</ol>
+<br>
+
+<p>转载注明：<a target="_blank" rel="noopener" href="https://github.com/Zeb-D/my-review">https://github.com/Zeb-D/my-review</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Unfall</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://unfall.top/2023/03/03/Java-Http/">https://unfall.top/2023/03/03/Java-Http/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://unfall.top" target="_blank">Unfall_Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/JavaWeb/">JavaWeb</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/03/03/Cookie-Session/"><img class="next-cover" src="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaWeb_Cookie&amp;Session</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/03/Cookie-Session/" title="JavaWeb_Cookie&Session"><img class="cover" src="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-03</div><div class="title">JavaWeb_Cookie&Session</div></div></a></div><div><a href="/2023/02/22/Java-Servlet/" title="JavaWeb_Servlet"><img class="cover" src="https://gitee.com/Unfall/blogimage/raw/master/img/20220818121632.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-22</div><div class="title">JavaWeb_Servlet</div></div></a></div><div><a href="/2022/08/25/JAVA%E4%B8%AD%E4%B8%8E%E3%80%81%E6%88%96%EF%BC%88-%EF%BC%8C-%EF%BC%8C-%EF%BC%8C-%EF%BC%89/" title="JAVA中的与和或（||，|，&&，&）"><img class="cover" src="https://raw.githubusercontent.com/Unfalll/picgo/main/img/20220818121632.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-25</div><div class="title">JAVA中的与和或（||，|，&&，&）</div></div></a></div><div><a href="/2023/02/09/Java-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6/" title="Java_动态绑定机制"><img class="cover" src="https://raw.githubusercontent.com/Unfalll/picgo/main/img/20220818121632.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-09</div><div class="title">Java_动态绑定机制</div></div></a></div><div><a href="/2022/08/25/SDK%E5%92%8CAPI%E7%9A%84%E5%8C%BA%E5%88%AB/" title="SDK和API的区别（转)"><img class="cover" src="https://img2.baidu.com/it/u=2890406970,1556514476&fm=253&fmt=auto&app=138&f=JPEG?w=898&h=500" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-25</div><div class="title">SDK和API的区别（转)</div></div></a></div><div><a href="/2022/12/28/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="网络编程"><img class="cover" src="https://raw.githubusercontent.com/Unfalll/picgo/main/img/20220818121632.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-28</div><div class="title">网络编程</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Valine</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s1.ax1x.com/2022/03/08/bcZYpd.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Unfall</div><div class="author-info__description">堂前种新树，花开已十年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Unfalll"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:3201864395@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3201864395&amp;site=qq&amp;menu=yes" target="_blank" title=""><i class="fab fa-qq"></i></a><a class="social-icon" href="https://steamcommunity.com/id/3201864395/" target="_blank" title=""><i class="fab fa-steam-symbol"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=295405999" target="_blank" title=""><i class="fas fa-music"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">顺其自然 无为而治</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">HTTP概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E9%A1%BEHTTP-x2F-2"><span class="toc-number">1.0.1.</span> <span class="toc-text">回顾HTTP &#x2F; 2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-x2F-3"><span class="toc-number">1.0.2.</span> <span class="toc-text">HTTP &#x2F; 3</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">HTTP连接管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">TCP性能分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E8%BF%9E%E6%8E%A5%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">HTTP连接处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BC%9A%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-number">4.</span> <span class="toc-text">web服务器会做什么</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/03/Java-Http/" title="Java_Http"><img src="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java_Http"/></a><div class="content"><a class="title" href="/2023/03/03/Java-Http/" title="Java_Http">Java_Http</a><time datetime="2023-03-03T09:10:01.000Z" title="发表于 2023-03-03 17:10:01">2023-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/03/Cookie-Session/" title="JavaWeb_Cookie&amp;Session"><img src="https://gitee.com/Unfall/blogimage/raw/master/img/20230303160601.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb_Cookie&amp;Session"/></a><div class="content"><a class="title" href="/2023/03/03/Cookie-Session/" title="JavaWeb_Cookie&amp;Session">JavaWeb_Cookie&amp;Session</a><time datetime="2023-03-03T08:04:32.000Z" title="发表于 2023-03-03 16:04:32">2023-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/22/Java-Servlet/" title="JavaWeb_Servlet"><img src="https://gitee.com/Unfall/blogimage/raw/master/img/20220818121632.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb_Servlet"/></a><div class="content"><a class="title" href="/2023/02/22/Java-Servlet/" title="JavaWeb_Servlet">JavaWeb_Servlet</a><time datetime="2023-02-22T09:47:41.000Z" title="发表于 2023-02-22 17:47:41">2023-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/Java-JDBC/" title="Java_JDBC"><img src="https://raw.githubusercontent.com/Unfalll/picgo/main/img/20220818121632.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java_JDBC"/></a><div class="content"><a class="title" href="/2023/02/13/Java-JDBC/" title="Java_JDBC">Java_JDBC</a><time datetime="2023-02-13T11:07:22.000Z" title="发表于 2023-02-13 19:07:22">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/09/Java-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6/" title="Java_动态绑定机制"><img src="https://raw.githubusercontent.com/Unfalll/picgo/main/img/20220818121632.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java_动态绑定机制"/></a><div class="content"><a class="title" href="/2023/02/09/Java-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A%E6%9C%BA%E5%88%B6/" title="Java_动态绑定机制">Java_动态绑定机制</a><time datetime="2023-02-09T11:43:03.000Z" title="发表于 2023-02-09 19:43:03">2023-02-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Unfall</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿世间美好与你环环相扣</div></div><div class="container" id="jsi-flying-fish-container"><script src="js/fish.js"></script></div><style>   @media only screen and (max-width: 767px){
+   #sidebar_search_box input[type=text]{width:calc(100% - 24px)}
+}</style></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'MBASlFAQqPMdjRJ7U5EeKDAP-MdYXbMMI',
+      appKey: 'xrU9dH0DPN2JDUfDYKDpxoXQ',
+      placeholder: '昵称输入QQ号自动获取头像邮箱',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script>function loadDisqus () {
+  var disqus_config = function () {
+    this.page.url = 'https://unfall.top/2023/03/03/Java-Http/'
+    this.page.identifier = '2023/03/03/Java-Http/'
+    this.page.title = 'Java_Http'
+  };
+
+  window.disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Valine' === 'Disqus' || !true) {
+  if (true) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fish.js"></script><canvas id="universe"></canvas><script defer src="/js/myjs.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
